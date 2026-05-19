@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nigerian Youth Empowerment Fund — Apply 2026</title>
+<meta name="robots" content="noindex,nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080C14;--bg2:#0C1220;--bg3:#101828;
+  --card:#0E1520;--card2:#131C2A;
+  --navy:#0D1B35;--navy2:#122040;
+  --gold:#C49A1A;--gold2:#E8B830;--gold3:#FFD54F;
+  --blue:#1A4ED8;--blue2:#2563EB;--sky:#60A5FA;
+  --w:#F0F4FF;--cream:#EDE8D8;
+  --text:#B8C0D0;--muted:#5A6478;
+  --line:rgba(255,255,255,0.07);--line2:rgba(255,255,255,0.12);
+  --green:#16A34A;--green2:#22C55E;
+  --red:#DC2626;--red2:#EF4444;
+  --wa:#25D366;--tg:#2AABEE;
+  --ng-green:#008751;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--w);min-height:100vh;overflow-x:hidden;-webkit-user-select:none;user-select:none;}
+
+/* BG */
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(ellipse 100% 50% at 50% -5%,rgba(26,78,216,0.2) 0%,transparent 55%),
+  radial-gradient(ellipse 60% 40% at 0% 70%,rgba(196,154,26,0.08) 0%,transparent 50%),
+  radial-gradient(ellipse 50% 35% at 100% 80%,rgba(26,78,216,0.06) 0%,transparent 50%);
+}
+.bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(26,78,216,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(26,78,216,0.04) 1px,transparent 1px);
+  background-size:40px 40px;}
+
+/* LOCK */
+#lock{position:fixed;inset:0;background:var(--bg);display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;z-index:99999;}
+#lock h2{color:var(--red2);font-family:'Syne',sans-serif;}
+#lock p{color:var(--muted);font-size:13px;}
+
+/* ANIMS */
+@keyframes rise{from{transform:translateY(18px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes slideIn{from{transform:translateX(-14px);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes tickS{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes shimmer{from{background-position:-400px 0}to{background-position:400px 0}}
+@keyframes shine{0%,100%{left:-60%}50%{left:130%}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(232,184,48,.3)}70%{box-shadow:0 0 0 12px transparent}}
+@keyframes countUp{0%{transform:scale(1.2);color:var(--gold3)}100%{transform:scale(1);color:var(--gold2)}}
+@keyframes scoreAnim{from{width:0}to{width:var(--target)}}
+
+/* NOTIFICATIONS */
+.nz{position:fixed;top:0;left:0;right:0;z-index:9990;pointer-events:none;display:flex;flex-direction:column;align-items:center;}
+.notif{width:100%;max-width:480px;background:rgba(8,12,20,.98);border-bottom:2px solid var(--gold);border-left:4px solid var(--blue2);padding:11px 16px;display:flex;align-items:flex-start;gap:10px;box-shadow:0 4px 24px rgba(0,0,0,.8);transform:translateY(-110%);opacity:0;transition:transform .5s cubic-bezier(.34,1.56,.64,1),opacity .4s ease;}
+.notif.show{transform:translateY(0);opacity:1;}
+.notif.hide{transform:translateY(-115%);opacity:0;transition:transform .3s ease,opacity .3s ease;}
+.n-av{width:30px;height:30px;border-radius:50%;background:rgba(26,78,216,.2);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.n-b{flex:1;}
+.n-badge{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold2);font-family:'DM Mono',monospace;opacity:.7;}
+.n-top{display:flex;align-items:center;justify-content:space-between;}
+.n-name{font-size:12px;font-weight:700;color:var(--w);}
+.n-time{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;}
+.n-msg{font-size:12px;color:var(--text);line-height:1.5;}
+.n-msg .ok{color:var(--green2);font-weight:700;}
+.n-msg .hl{color:var(--gold2);font-weight:700;}
+.n-msg .bl{color:var(--sky);font-weight:700;}
+
+/* TOP STRIPE */
+.top-stripe{display:flex;height:4px;}
+.ts1{flex:1;background:var(--ng-green);}
+.ts2{flex:1;background:#fff;}
+.ts3{flex:1;background:var(--ng-green);}
+
+/* HEADER */
+.hdr{background:rgba(8,12,20,.97);border-bottom:1px solid var(--line);backdrop-filter:blur(16px);position:relative;z-index:10;}
+.hdr-top{background:rgba(26,78,216,.15);border-bottom:1px solid rgba(26,78,216,.2);padding:7px 18px;display:flex;align-items:center;justify-content:space-between;}
+.hdr-top-txt{font-size:10px;font-weight:600;color:rgba(96,165,250,.7);font-family:'DM Mono',monospace;letter-spacing:.5px;}
+.hdr-top-live{display:flex;align-items:center;gap:6px;}
+.hdr-dot{width:6px;height:6px;border-radius:50%;background:var(--green2);animation:blink 1s infinite;box-shadow:0 0 6px var(--green2);}
+.hdr-count{font-size:12px;font-weight:700;color:var(--green2);font-family:'DM Mono',monospace;}
+
+.hdr-body{padding:12px 18px;display:flex;align-items:center;justify-content:space-between;}
+.hdr-brand{display:flex;align-items:center;gap:11px;}
+.hdr-seal{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 0 0 2px rgba(232,184,48,.2),0 4px 16px rgba(196,154,26,.2);}
+.hdr-titles{flex:1;}
+.hdr-tag{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);font-family:'DM Mono',monospace;margin-bottom:2px;}
+.hdr-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--w);}
+.hdr-ref{text-align:right;}
+.hdr-ref-lbl{font-size:9px;color:var(--muted);font-family:'DM Mono',monospace;text-transform:uppercase;letter-spacing:1px;}
+.hdr-ref-val{font-size:12px;font-weight:700;color:var(--gold2);font-family:'DM Mono',monospace;}
+
+/* TICKER */
+.ticker{background:rgba(26,78,216,.15);border-bottom:1px solid rgba(26,78,216,.2);overflow:hidden;padding:7px 0;position:relative;z-index:9;}
+.ti{display:flex;white-space:nowrap;animation:tickS 24s linear infinite;}
+.ti span{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(96,165,250,.7);padding:0 22px;flex-shrink:0;font-family:'DM Mono',monospace;}
+.ti span::after{content:'◆';margin-left:22px;opacity:.3;}
+
+/* PAGE */
+.page{position:relative;z-index:1;max-width:480px;margin:0 auto;padding:0 14px 60px;}
+
+/* ══ STEP 1 — LANDING ══ */
+#s1{display:block;}
+
+.hero{padding:28px 0 22px;animation:rise .5s ease both;}
+.hero-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(232,184,48,.1);border:1px solid rgba(232,184,48,.2);border-radius:4px;padding:5px 12px;margin-bottom:16px;}
+.hp-dot{width:6px;height:6px;border-radius:50%;background:var(--gold2);animation:blink 1s infinite;}
+.hp-txt{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold2);font-family:'DM Mono',monospace;}
+
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(28px,8vw,42px);font-weight:800;line-height:1.1;color:var(--w);margin-bottom:12px;}
+.hero h1 em{font-style:normal;color:var(--gold2);}
+.hero h1 .bl{color:var(--sky);}
+.hero-p{font-size:14px;color:var(--text);line-height:1.8;font-weight:400;max-width:400px;margin-bottom:20px;}
+.hero-p strong{color:var(--w);font-weight:700;}
+
+/* Stats */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border-radius:10px;overflow:hidden;margin-bottom:20px;animation:rise .5s .04s ease both;}
+.sr{background:var(--card);padding:12px 6px;text-align:center;}
+.sr-v{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--gold2);line-height:1;}
+.sr-l{font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:3px;font-family:'DM Mono',monospace;}
+
+/* Alert */
+.alert-box{background:rgba(22,163,74,.08);border:1px solid rgba(34,197,94,.15);border-left:3px solid var(--green2);border-radius:0 8px 8px 0;padding:11px 14px;margin-bottom:20px;font-size:12px;color:rgba(34,197,94,.85);font-weight:600;line-height:1.6;animation:rise .5s .06s ease both;}
+.alert-box strong{color:var(--green2);font-weight:800;}
+
+/* Eligibility categories */
+.elig-hd{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--w);margin-bottom:4px;animation:rise .5s .08s ease both;}
+.elig-sub{font-size:12px;color:var(--muted);margin-bottom:14px;animation:rise .5s .09s ease both;}
+
+.elig-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;animation:rise .5s .1s ease both;}
+.elig-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 12px;display:flex;align-items:center;gap:10px;transition:all .2s;cursor:default;}
+.elig-card:hover{border-color:rgba(232,184,48,.2);background:var(--card2);}
+.ec-icon{font-size:22px;flex-shrink:0;}
+.ec-body{flex:1;}
+.ec-name{font-size:13px;font-weight:700;color:var(--w);margin-bottom:2px;}
+.ec-amount{font-size:12px;font-weight:700;color:var(--gold2);}
+
+.btn-check{width:100%;padding:16px;background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:18px;font-weight:800;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:0 6px 24px rgba(26,78,216,.3);position:relative;overflow:hidden;animation:pulse 2.5s ease-in-out infinite;}
+.btn-check::after{content:'';position:absolute;top:-50%;left:-60%;width:30%;height:200%;background:rgba(255,255,255,.15);transform:skewX(-20deg);animation:shine 3s ease-in-out infinite;}
+.btn-check:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(26,78,216,.4);}
+
+/* ══ STEP 2 — QUIZ ══ */
+#s2{display:none;}
+
+.quiz-wrap{animation:rise .5s ease both;}
+.quiz-hd{text-align:center;padding:24px 0 20px;}
+.quiz-hd h2{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--w);margin-bottom:6px;}
+.quiz-hd p{font-size:13px;color:var(--text);}
+.quiz-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(26,78,216,.15);border:1px solid rgba(26,78,216,.25);border-radius:100px;padding:5px 14px;font-size:11px;font-weight:700;color:var(--sky);margin-bottom:14px;font-family:'DM Mono',monospace;}
+
+/* Question card */
+.q-card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:14px;}
+.q-hd{background:rgba(26,78,216,.15);padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;}
+.q-num{font-size:11px;font-weight:700;color:var(--sky);font-family:'DM Mono',monospace;}
+.q-prog{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.q-body{padding:18px 16px;}
+.q-text{font-size:15px;font-weight:700;color:var(--w);margin-bottom:16px;line-height:1.5;}
+.q-options{display:flex;flex-direction:column;gap:8px;}
+.q-opt{display:flex;align-items:center;gap:12px;background:var(--bg3);border:1.5px solid var(--line);border-radius:10px;padding:13px 14px;cursor:pointer;transition:all .2s;font-size:14px;font-weight:600;color:var(--text);}
+.q-opt:hover{border-color:rgba(232,184,48,.3);color:var(--w);background:rgba(232,184,48,.05);}
+.q-opt.selected{border-color:var(--gold2);background:rgba(232,184,48,.1);color:var(--gold2);}
+.q-opt.correct{border-color:var(--green2);background:rgba(34,197,94,.1);color:var(--green2);}
+.q-opt-dot{width:18px;height:18px;border-radius:50%;border:1.5px solid currentColor;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;transition:all .2s;}
+.q-opt.selected .q-opt-dot{background:var(--gold2);border-color:var(--gold2);color:#000;}
+.q-opt.correct .q-opt-dot::after{content:'✓';}
+
+.btn-next{width:100%;padding:14px;background:var(--gold);color:#000;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:17px;font-weight:800;cursor:pointer;margin-top:14px;transition:transform .15s,background .2s;display:none;}
+.btn-next.show{display:block;}
+.btn-next:hover{transform:translateY(-1px);background:var(--gold2);}
+
+/* ══ STEP 3 — RESULT ══ */
+#s3{display:none;}
+
+.result-wrap{text-align:center;padding:30px 0 20px;animation:rise .5s ease both;}
+.result-icon{font-size:60px;display:block;margin-bottom:16px;animation:pop .6s cubic-bezier(.34,1.56,.64,1) both;}
+.result-wrap h2{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--gold2);margin-bottom:6px;}
+.result-wrap p{font-size:14px;color:var(--text);margin-bottom:20px;line-height:1.7;}
+.result-wrap p strong{color:var(--w);}
+
+/* Score card */
+.score-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px 18px;margin-bottom:16px;text-align:left;}
+.sc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.sc-label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-family:'DM Mono',monospace;}
+.sc-score{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:var(--gold2);animation:countUp .5s ease both;}
+.sc-bar-wrap{margin-bottom:14px;}
+.sc-bar-lbl{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;margin-bottom:6px;}
+.sc-bar{height:10px;background:var(--bg3);border-radius:100px;overflow:hidden;border:1px solid var(--line);}
+.sc-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:100px;width:0%;transition:width 1.5s cubic-bezier(.34,1.56,.64,1);}
+.sc-rows{display:flex;flex-direction:column;gap:8px;}
+.sc-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);}
+.sc-row:last-child{border-bottom:none;}
+.sc-key{font-size:12px;color:var(--muted);font-weight:500;}
+.sc-val{font-size:13px;font-weight:700;color:var(--w);}
+.sc-val.green{color:var(--green2);}
+.sc-val.gold{color:var(--gold2);}
+
+/* Amount reveal */
+.amount-card{background:linear-gradient(135deg,rgba(26,78,216,.2),rgba(196,154,26,.1));border:1px solid rgba(232,184,48,.2);border-radius:14px;padding:20px;margin-bottom:16px;text-align:center;}
+.ac-lbl{font-size:11px;font-weight:700;color:rgba(232,184,48,.6);letter-spacing:2px;text-transform:uppercase;font-family:'DM Mono',monospace;margin-bottom:8px;}
+.ac-amount{font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:var(--gold2);line-height:1;text-shadow:0 0 30px rgba(232,184,48,.3);}
+.ac-sub{font-size:12px;color:var(--text);margin-top:6px;}
+
+.btn-proceed{width:100%;padding:16px;background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:17px;font-weight:800;cursor:pointer;transition:transform .15s;position:relative;overflow:hidden;box-shadow:0 6px 24px rgba(26,78,216,.3);}
+.btn-proceed::after{content:'';position:absolute;top:-50%;left:-60%;width:30%;height:200%;background:rgba(255,255,255,.15);transform:skewX(-20deg);animation:shine 3s ease-in-out infinite;}
+.btn-proceed:hover{transform:translateY(-1px);}
+
+/* ══ STEP 4 — SHARE WALL ══ */
+#s4{display:none;}
+
+.sw-top{text-align:center;padding:24px 0 18px;animation:rise .5s ease both;}
+.sw-icon{font-size:52px;display:block;margin-bottom:12px;animation:float 3s ease-in-out infinite;}
+.sw-top h2{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;color:var(--gold2);margin-bottom:8px;}
+.sw-top p{font-size:13px;color:var(--text);line-height:1.75;max-width:320px;margin:0 auto;}
+.sw-top p strong{color:var(--w);}
+
+/* Share card */
+.share-card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-bottom:14px;animation:rise .5s .05s ease both;}
+.share-card-hd{background:rgba(26,78,216,.15);padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;}
+.sch-left{display:flex;align-items:center;gap:8px;}
+.sch-dot{width:7px;height:7px;border-radius:50%;background:var(--green2);animation:blink 1s infinite;box-shadow:0 0 6px var(--green2);}
+.sch-title{font-size:13px;font-weight:700;color:var(--w);}
+.sch-ref{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);}
+
+.share-card-body{padding:16px;}
+.prog-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+.prog-lbl{font-size:11px;font-weight:700;color:var(--muted);font-family:'DM Mono',monospace;}
+.prog-num{font-family:'Syne',sans-serif;font-size:30px;font-weight:800;color:var(--gold2);}
+.prog-track{height:8px;background:var(--bg3);border-radius:100px;overflow:hidden;margin-bottom:16px;border:1px solid var(--line);}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--blue2));border-radius:100px;width:0%;transition:width .7s cubic-bezier(.34,1.56,.64,1);}
+
+.steps-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:16px;}
+.s-tile{aspect-ratio:1;border-radius:8px;background:var(--bg3);border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--muted);font-family:'DM Mono',monospace;transition:all .3s;}
+.s-tile.done{background:rgba(26,78,216,.2);border-color:rgba(26,78,216,.4);color:var(--sky);}
+
+/* Track status */
+.track-status{display:flex;align-items:center;gap:10px;background:var(--bg3);border:1px solid var(--line);border-radius:8px;padding:10px 13px;margin-bottom:14px;}
+.ts-dot{width:7px;height:7px;border-radius:50%;background:var(--gold2);animation:blink .8s infinite;flex-shrink:0;}
+.ts-body{flex:1;}
+.ts-title{font-size:12px;font-weight:700;color:var(--w);}
+.ts-sub{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.ts-code{font-size:11px;font-weight:700;color:var(--gold2);font-family:'DM Mono',monospace;flex-shrink:0;}
+
+/* Share button */
+.btn-share{width:100%;padding:16px;background:var(--wa);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 18px rgba(37,211,102,.25);margin-bottom:8px;position:relative;overflow:hidden;}
+.btn-share::before{content:'';position:absolute;top:-50%;left:-60%;width:30%;height:200%;background:rgba(255,255,255,.2);transform:skewX(-20deg);animation:shine 4s ease-in-out infinite;}
+.btn-share:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,211,102,.35);}
+.bs-body{text-align:left;flex:1;}
+.bs-title{font-size:15px;font-weight:700;color:#fff;display:block;}
+.bs-sub{font-size:11px;opacity:.85;display:block;margin-top:1px;}
+
+.sf-toast{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);border-radius:7px;padding:8px 13px;font-size:12px;font-weight:600;color:var(--green2);font-family:'DM Mono',monospace;display:none;margin-bottom:10px;text-align:center;}
+.sf-toast.show{display:block;}
+
+.sw-note{text-align:center;font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;margin-bottom:16px;}
+.ghost{color:var(--bg);font-size:11px;text-align:center;padding:4px 0 14px;user-select:none;}
+
+/* Testi */
+.testi-hd{display:flex;align-items:center;gap:7px;margin-bottom:10px;}
+.td-dot{width:6px;height:6px;border-radius:50%;background:var(--green2);animation:blink 1.2s infinite;}
+.td-txt{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;font-family:'DM Mono',monospace;}
+.tf{display:flex;flex-direction:column;gap:7px;max-height:260px;overflow:hidden;position:relative;}
+.tf::after{content:'';position:absolute;bottom:0;left:0;right:0;height:50px;background:linear-gradient(transparent,var(--bg));pointer-events:none;}
+.tc{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;align-items:flex-start;gap:10px;animation:slideIn .4s ease both;}
+.tc-av{width:30px;height:30px;border-radius:50%;background:rgba(26,78,216,.2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.tc-bd{flex:1;}
+.tc-hd{font-size:12px;font-weight:700;color:var(--w);margin-bottom:2px;display:flex;align-items:center;gap:6px;}
+.tc-when{font-size:10px;color:var(--muted);font-weight:400;font-family:'DM Mono',monospace;}
+.tc-msg{font-size:12px;color:var(--text);line-height:1.55;}
+.tc-msg .ok{color:var(--green2);font-weight:700;}
+.tc-msg .hl{color:var(--gold2);font-weight:700;}
+
+/* ══ STEP 5 — UNLOCK ══ */
+#s5{display:none;}
+.unlock-wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 0;text-align:center;}
+.unlock-seal{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--blue2));display:flex;align-items:center;justify-content:center;margin:0 auto 18px;animation:pop .6s cubic-bezier(.34,1.56,.64,1) both;box-shadow:0 0 0 12px rgba(26,78,216,.08),0 0 0 24px rgba(26,78,216,.04);font-size:36px;}
+.unlock-wrap h2{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--gold2);margin-bottom:8px;}
+.unlock-sub{font-size:14px;color:var(--text);line-height:1.75;margin-bottom:20px;max-width:300px;}
+.unlock-sub strong{color:var(--w);}
+
+/* Countdown */
+.countdown-card{background:rgba(220,38,38,.06);border:1.5px solid rgba(220,38,38,.2);border-radius:10px;padding:14px 16px;margin-bottom:16px;width:100%;text-align:center;}
+.cd-lbl{font-size:10px;font-weight:700;color:var(--red2);letter-spacing:1.5px;text-transform:uppercase;font-family:'DM Mono',monospace;margin-bottom:6px;}
+.cd-timer{font-family:'Syne',sans-serif;font-size:34px;font-weight:800;color:var(--red2);}
+.cd-sub{font-size:11px;color:var(--muted);margin-top:4px;}
+
+/* Summary */
+.summary-card{width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:16px;text-align:left;}
+.sum-hd{background:rgba(26,78,216,.15);padding:10px 16px;font-size:10px;font-weight:700;color:var(--sky);letter-spacing:1.5px;text-transform:uppercase;font-family:'DM Mono',monospace;border-bottom:1px solid var(--line);}
+.sum-row{display:flex;justify-content:space-between;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line);}
+.sum-row:last-child{border-bottom:none;}
+.sum-key{font-size:12px;color:var(--muted);font-weight:500;}
+.sum-val{font-size:13px;font-weight:700;color:var(--w);}
+.sum-val.green{color:var(--green2);}
+.sum-val.gold{color:var(--gold2);}
+
+/* REF reminder */
+.ref-reminder{background:rgba(232,184,48,.08);border:1.5px solid rgba(232,184,48,.2);border-radius:10px;padding:13px 16px;margin-bottom:16px;width:100%;}
+.rr-lbl{font-size:10px;font-weight:700;color:rgba(232,184,48,.6);letter-spacing:1.5px;text-transform:uppercase;font-family:'DM Mono',monospace;margin-bottom:6px;}
+.rr-txt{font-size:13px;color:var(--w);font-weight:600;line-height:1.7;}
+.rr-code{color:var(--gold2);font-family:'DM Mono',monospace;font-weight:800;}
+
+/* CTA buttons */
+.cta-stack{display:flex;flex-direction:column;gap:10px;width:100%;margin-bottom:14px;}
+.btn-tg{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:15px;background:var(--tg);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;text-decoration:none;box-shadow:0 4px 16px rgba(42,171,238,.2);transition:transform .15s;animation:pulse 2.5s ease-in-out infinite;}
+.btn-tg:hover{transform:translateY(-1px);}
+.btn-wa{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:15px;background:var(--wa);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:800;cursor:pointer;text-decoration:none;box-shadow:0 4px 16px rgba(37,211,102,.2);transition:transform .15s;}
+.btn-wa:hover{transform:translateY(-1px);}
+.btn-aff{display:block;width:100%;padding:14px;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:10px;color:var(--text);font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;text-align:center;transition:all .2s;}
+.btn-aff:hover{background:rgba(255,255,255,.09);color:var(--w);}
+
+.share-again-row{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:10px;}
+.sar-b{flex:1;}
+.sar-t{font-size:13px;font-weight:700;color:var(--w);}
+.sar-s{font-size:11px;color:var(--muted);}
+.btn-sar{padding:8px 14px;background:var(--wa);color:#fff;border:none;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0;}
+.un-note{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+
+/* FAIL MODAL */
+#failModal{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:99999;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(10px);}
+#failModal.show{display:flex;}
+.fm-card{width:100%;max-width:480px;background:var(--card2);border-radius:20px 20px 0 0;padding:26px 20px 42px;border-top:3px solid var(--red2);animation:rise .4s ease both;}
+.fm-icon{font-size:46px;text-align:center;display:block;margin-bottom:12px;}
+.fm-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--red2);text-align:center;margin-bottom:10px;}
+.fm-body{background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.18);border-left:3px solid var(--red2);border-radius:0 8px 8px 0;padding:12px 14px;margin-bottom:14px;font-size:13px;color:rgba(239,68,68,.85);line-height:1.7;font-weight:500;}
+.fm-body strong{color:var(--red2);font-weight:800;}
+.fm-track{background:rgba(26,78,216,.1);border:1px solid rgba(26,78,216,.2);border-radius:7px;padding:9px 13px;margin-bottom:14px;font-size:12px;color:var(--sky);font-family:'DM Mono',monospace;text-align:center;font-weight:600;}
+.fm-steps{display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
+.fm-step{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:500;color:var(--text);}
+.fm-num{width:24px;height:24px;border-radius:50%;background:rgba(220,38,38,.12);border:1px solid rgba(220,38,38,.25);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--red2);flex-shrink:0;}
+.btn-retry{width:100%;padding:14px;background:var(--blue);color:#fff;border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:16px;font-weight:800;cursor:pointer;margin-bottom:8px;transition:background .2s;}
+.btn-retry:disabled{opacity:.4;cursor:not-allowed;}
+.btn-retry:not(:disabled):hover{background:var(--blue2);}
+.fm-note{text-align:center;font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--card2);border:1.5px solid var(--green2);color:var(--green2);padding:10px 20px;border-radius:100px;font-size:12px;font-weight:600;transition:transform .45s cubic-bezier(.34,1.56,.64,1);z-index:9999;white-space:nowrap;font-family:'DM Mono',monospace;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<div id="lock"><h2>Unauthorized Access</h2><p>Official link only.</p></div>
+
+<!-- FAIL MODAL -->
+<div id="failModal">
+  <div class="fm-card">
+    <span class="fm-icon">⚠️</span>
+    <div class="fm-title" id="fmTitle">Share Not Detected!</div>
+    <div class="fm-body" id="fmBody">Our verification system did not record a valid WhatsApp share from your device. You must <strong>actually send the message</strong> to a contact or group to verify your identity.</div>
+    <div class="fm-track">🔍 VERIFICATION ID: <span id="fmCode">——</span> · Status: UNVERIFIED</div>
+    <div class="fm-steps">
+      <div class="fm-step"><div class="fm-num">1</div>Tap Share below</div>
+      <div class="fm-step"><div class="fm-num">2</div>WhatsApp opens — select a contact or group</div>
+      <div class="fm-step"><div class="fm-num">3</div>Tap the <strong style="color:var(--w)">green Send button</strong> inside WhatsApp</div>
+      <div class="fm-step"><div class="fm-num">4</div>Return here and tap Share again</div>
+    </div>
+    <button class="btn-retry" id="fmRetryBtn" onclick="closeFailModal()">🔄 Try Again Properly</button>
+    <p class="fm-note">// Unverified shares will cancel your fund application //</p>
+  </div>
+</div>
+
+<!-- NOTIFICATIONS -->
+<div class="nz" id="nz"></div>
+
+<!-- TOP STRIPE -->
+<div class="top-stripe"><div class="ts1"></div><div class="ts2"></div><div class="ts3"></div></div>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-top">
+    <div class="hdr-top-txt">Federal Republic of Nigeria · Youth Empowerment Initiative</div>
+    <div class="hdr-top-live"><div class="hdr-dot"></div><div class="hdr-count" id="liveNum">89,432</div></div>
+  </div>
+  <div class="hdr-body">
+    <div class="hdr-brand">
+      <div class="hdr-seal">🏦</div>
+      <div class="hdr-titles">
+        <div class="hdr-tag">NYEF · 2026 Disbursement</div>
+        <div class="hdr-name">Nigerian Youth Empowerment Fund</div>
+      </div>
+    </div>
+    <div class="hdr-ref">
+      <div class="hdr-ref-lbl">Portal ID</div>
+      <div class="hdr-ref-val">NYEF-26</div>
+    </div>
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ti">
+    <span>NYEF 2026 — APPLICATIONS NOW OPEN</span>
+    <span>YOUTH EMPOWERMENT · BUSINESS STARTUP · SKILLS FUND</span>
+    <span>89,000+ NIGERIANS APPLIED TODAY</span>
+    <span>UP TO ₦500,000 · FREE · NO PAYMENT</span>
+    <span>NYEF 2026 — APPLICATIONS NOW OPEN</span>
+    <span>YOUTH EMPOWERMENT · BUSINESS STARTUP · SKILLS FUND</span>
+    <span>89,000+ NIGERIANS APPLIED TODAY</span>
+    <span>UP TO ₦500,000 · FREE · NO PAYMENT</span>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- ══ STEP 1 — LANDING ══ -->
+<div id="s1">
+  <div class="hero">
+    <div class="hero-pill"><div class="hp-dot"></div><span class="hp-txt">2026 Disbursement Open</span></div>
+    <h1>Are You a Nigerian Youth <em>Struggling</em> to <span class="bl">Move Forward?</span></h1>
+    <p class="hero-p">The government knows how hard it is. <strong>No job. No capital. No support.</strong> The Nigerian Youth Empowerment Fund 2026 is here to change that — up to ₦500,000 disbursed directly to your account.</p>
+  </div>
+
+  <div class="stats-row">
+    <div class="sr"><div class="sr-v" id="stCnt">89K+</div><div class="sr-l">Applied</div></div>
+    <div class="sr"><div class="sr-v">₦500K</div><div class="sr-l">Max Fund</div></div>
+    <div class="sr"><div class="sr-v">Free</div><div class="sr-l">No Cost</div></div>
+  </div>
+
+  <div class="alert-box"><strong>✅ You may be eligible.</strong> Take the 3-question eligibility check below to see how much you qualify for. Takes less than 60 seconds.</div>
+
+  <div class="elig-hd">What the fund covers:</div>
+  <div class="elig-sub">Based on your situation, you qualify for one or more</div>
+
+  <div class="elig-grid">
+    <div class="elig-card"><span class="ec-icon">🚀</span><div class="ec-body"><div class="ec-name">Business Startup</div><div class="ec-amount">Up to ₦500,000</div></div></div>
+    <div class="elig-card"><span class="ec-icon">🎓</span><div class="ec-body"><div class="ec-name">Skills Training</div><div class="ec-amount">Up to ₦150,000</div></div></div>
+    <div class="elig-card"><span class="ec-icon">🏠</span><div class="ec-body"><div class="ec-name">Living Support</div><div class="ec-amount">Up to ₦80,000</div></div></div>
+    <div class="elig-card"><span class="ec-icon">💻</span><div class="ec-body"><div class="ec-name">Tech & Digital</div><div class="ec-amount">Up to ₦200,000</div></div></div>
+  </div>
+
+  <button class="btn-check" onclick="startQuiz()">✅ Check My Eligibility Now →</button>
+</div>
+
+<!-- ══ STEP 2 — QUIZ ══ -->
+<div id="s2">
+  <div class="quiz-wrap">
+    <div class="quiz-hd">
+      <div class="quiz-badge">🔍 NYEF Eligibility Check · 3 Questions</div>
+      <h2>Answer 3 Quick Questions</h2>
+      <p>This helps us determine your fund category and amount</p>
+    </div>
+
+    <div class="q-card" id="qCard">
+      <div class="q-hd">
+        <div class="q-num" id="qNum">Question 1 of 3</div>
+        <div class="q-prog" id="qProg">33%</div>
+      </div>
+      <div class="q-body">
+        <div class="q-text" id="qText">How old are you?</div>
+        <div class="q-options" id="qOptions"></div>
+        <button class="btn-next" id="btnNext" onclick="nextQ()">Continue →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ STEP 3 — RESULT ══ -->
+<div id="s3">
+  <div class="result-wrap">
+    <span class="result-icon">🎯</span>
+    <h2>You Qualify!</h2>
+    <p>Based on your answers, you are <strong>eligible for the Nigerian Youth Empowerment Fund 2026.</strong> See your result below.</p>
+  </div>
+
+  <div class="score-card">
+    <div class="sc-top">
+      <div class="sc-label">Eligibility Score</div>
+      <div class="sc-score" id="scoreVal">94%</div>
+    </div>
+    <div class="sc-bar-wrap">
+      <div class="sc-bar-lbl"><span>0%</span><span>100%</span></div>
+      <div class="sc-bar"><div class="sc-fill" id="scoreFill"></div></div>
+    </div>
+    <div class="sc-rows">
+      <div class="sc-row"><span class="sc-key">Age Bracket</span><span class="sc-val green" id="scrAge">✓ Eligible</span></div>
+      <div class="sc-row"><span class="sc-key">Employment Status</span><span class="sc-val green" id="scrJob">✓ Eligible</span></div>
+      <div class="sc-row"><span class="sc-key">State Coverage</span><span class="sc-val green">✓ Your state covered</span></div>
+      <div class="sc-row"><span class="sc-key">Fund Category</span><span class="sc-val gold" id="scrCat">Business Startup</span></div>
+    </div>
+  </div>
+
+  <div class="amount-card">
+    <div class="ac-lbl">Your Approved Amount</div>
+    <div class="ac-amount" id="approvedAmt">₦350,000</div>
+    <div class="ac-sub">Subject to verification — DM us after completing shares</div>
+  </div>
+
+  <button class="btn-proceed" onclick="goShareWall()">Proceed to Claim Your Fund →</button>
+</div>
+
+<!-- ══ STEP 4 — SHARE WALL ══ -->
+<div id="s4">
+  <div class="sw-top">
+    <span class="sw-icon">🔐</span>
+    <h2>One Last Step!</h2>
+    <p>To verify your identity and <strong>protect the fund source</strong>, share this portal to 10 Nigerians via WhatsApp. Unlocks automatically.</p>
+  </div>
+
+  <div class="share-card">
+    <div class="share-card-hd">
+      <div class="sch-left"><div class="sch-dot"></div><div class="sch-title">Identity Verification</div></div>
+      <div class="sch-ref">REF: <span id="shareRef">——</span></div>
+    </div>
+    <div class="share-card-body">
+      <div class="prog-top">
+        <span class="prog-lbl">Verified Shares</span>
+        <span class="prog-num" id="progNum">0/10</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
+      <div class="steps-grid" id="stepsGrid"></div>
+
+      <div class="track-status">
+        <div class="ts-dot"></div>
+        <div class="ts-body">
+          <div class="ts-title" id="tsTitle">Verification System Active</div>
+          <div class="ts-sub" id="tsSub">Awaiting your first share...</div>
+        </div>
+        <div class="ts-code" id="tsCode">——</div>
+      </div>
+
+      <div class="sf-toast" id="sfToast">✅ Share verified — tap again to continue</div>
+
+      <button class="btn-share" onclick="doShare()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <div class="bs-body">
+          <span class="bs-title" id="bsTitle">Share to Verify Identity</span>
+          <span class="bs-sub" id="bsSub">Step 1 of 10 — Tap to open WhatsApp</span>
+        </div>
+      </button>
+      <p class="sw-note">// Each share = 1 verified identity check · 10 required //</p>
+    </div>
+  </div>
+
+  <div class="ghost"><strong id="ghostNum">89,432</strong> Nigerians verified today</div>
+
+  <div>
+    <div class="testi-hd"><div class="td-dot"></div><div class="td-txt">// Nigerians receiving funds now //</div></div>
+    <div class="tf" id="tf"></div>
+  </div>
+</div>
+
+<!-- ══ STEP 5 — UNLOCK ══ -->
+<div id="s5">
+  <div class="unlock-wrap">
+    <div class="unlock-seal">✅</div>
+    <h2>Fund Approved!</h2>
+    <p class="unlock-sub">Your identity has been verified. <strong>Contact us now</strong> to complete your disbursement process.</p>
+
+    <!-- COUNTDOWN -->
+    <div class="countdown-card">
+      <div class="cd-lbl">⏰ Application Expires In</div>
+      <div class="cd-timer" id="countdown">23:59:59</div>
+      <div class="cd-sub">DM us before this timer expires to secure your funds</div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="summary-card">
+      <div class="sum-hd">// NYEF-2026 Application Summary</div>
+      <div class="sum-row"><span class="sum-key">Fund Category</span><span class="sum-val gold" id="sumCat">——</span></div>
+      <div class="sum-row"><span class="sum-key">Approved Amount</span><span class="sum-val gold" id="sumAmt">——</span></div>
+      <div class="sum-row"><span class="sum-key">Shares Verified</span><span class="sum-val green">10/10 ✓</span></div>
+      <div class="sum-row"><span class="sum-key">Status</span><span class="sum-val green">Pre-Approved ✓</span></div>
+      <div class="sum-row"><span class="sum-key">Reference</span><span class="sum-val" id="sumRef" style="font-family:'DM Mono',monospace;font-size:11px;">——</span></div>
+    </div>
+
+    <!-- REF REMINDER -->
+    <div class="ref-reminder">
+      <div class="rr-lbl">📌 Send This When You DM Us</div>
+      <div class="rr-txt">Your reference number: <span class="rr-code" id="refReminder">——</span><br>Send this number when you contact us so we can process your payment immediately.</div>
+    </div>
+
+    <!-- CONTACT BUTTONS -->
+    <div style="font-size:12px;font-weight:700;color:var(--muted);text-align:center;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;font-family:'DM Mono',monospace;">Contact us to receive payment</div>
+    <div class="cta-stack">
+      <a class="btn-tg" href="https://t.me/kingsamtoclef" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        📲 DM Us on Telegram — Receive Payment
+      </a>
+      <a class="btn-wa" id="btnWaFinal" href="https://wa.me/2349023386778" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        💬 DM Us on WhatsApp Instead
+      </a>
+      <a class="btn-aff" href="https://omg10.com/4/10659981" target="_blank">🔗 Complete Your Fund Profile</a>
+    </div>
+
+    <div class="share-again-row">
+      <div class="sar-b"><div class="sar-t">Help a fellow Nigerian 🙏</div><div class="sar-s">Share with others who need this fund</div></div>
+      <button class="btn-sar" onclick="shareAgain()">Share 📲</button>
+    </div>
+    <p class="un-note">// NYEF-2026 · Nigerian Youth Empowerment Fund · Free //</p>
+  </div>
+</div>
+
+</div><!-- /page -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* CONFIG */
+const SITE = 'https://nyef-fund.vercel.app';
+const AFF  = 'https://omg10.com/4/10659981';
+const TG   = 'https://t.me/kingsamtoclef';
+const WA   = 'https://wa.me/2349023386778';
+const BACK = 'https://omg10.com/4/4105256';
+const REQ  = 10;
+
+/* DOMAIN LOCK */
+(function(){
+  const OK=['nyef-fund.vercel.app','localhost','127.0.0.1'];
+  if(!OK.some(d=>location.hostname===d||location.hostname.endsWith('.'+d))){
+    document.getElementById('lock').style.display='flex';
+    document.body.style.overflow='hidden';
+  }
+})();
+
+/* ANTI-COPY */
+document.addEventListener('contextmenu',e=>e.preventDefault());
+document.addEventListener('keydown',e=>{if(e.key==='F12'||(e.ctrlKey&&['u','U','s','S'].includes(e.key))||(e.ctrlKey&&e.shiftKey&&'iIjJcC'.includes(e.key)))e.preventDefault();});
+document.addEventListener('copy',e=>e.preventDefault());
+document.addEventListener('cut',e=>e.preventDefault());
+
+/* BACKTRAP */
+(function(){
+  history.pushState(null,'',location.href);
+  history.pushState(null,'',location.href);
+  history.pushState(null,'',location.href);
+  window.addEventListener('popstate',function(){
+    history.pushState(null,'',location.href);
+    window.location.href=BACK;
+  });
+})();
+
+/* LIVE COUNTER */
+let cnt=89432;
+setInterval(()=>{
+  cnt+=Math.floor(Math.random()*4)+1;
+  const f=cnt.toLocaleString('en-NG');
+  ['liveNum','ghostNum'].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=f;});
+  const sc=document.getElementById('stCnt');if(sc)sc.textContent=Math.floor(cnt/1000)+'K+';
+},Math.random()*2000+1800);
+
+/* QUIZ */
+const QUESTIONS=[
+  {
+    text:'How old are you?',
+    opts:['Under 18','18 – 25 years','26 – 35 years','Above 35'],
+    correct:[1,2],
+    labels:['Under 18','Youth (18–25)','Youth (26–35)','Above target range']
+  },
+  {
+    text:'What is your current employment status?',
+    opts:['Fully employed (salary)','Self-employed / Business owner','Unemployed / Job-seeking','Student / Intern'],
+    correct:[1,2,3],
+    labels:['Self-employed','Unemployed','Student']
+  },
+  {
+    text:'What do you need the fund for most?',
+    opts:['Start or grow a business','Learn a skill or get training','Pay bills and living expenses','Buy a device for work or study'],
+    correct:[0,1,2,3],
+    labels:['Business Startup','Skills Training','Living Support','Tech & Digital']
+  },
+];
+
+let curQ=0,userAnswers=[],selectedOpt=null;
+
+function startQuiz(){
+  document.getElementById('s1').style.display='none';
+  document.getElementById('s2').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+  renderQ();
+}
+
+function renderQ(){
+  const q=QUESTIONS[curQ];
+  document.getElementById('qNum').textContent=`Question ${curQ+1} of ${QUESTIONS.length}`;
+  document.getElementById('qProg').textContent=`${Math.round(((curQ+1)/QUESTIONS.length)*100)}%`;
+  document.getElementById('qText').textContent=q.text;
+  const opts=document.getElementById('qOptions');
+  opts.innerHTML='';
+  selectedOpt=null;
+  document.getElementById('btnNext').classList.remove('show');
+  q.opts.forEach((o,i)=>{
+    const d=document.createElement('div');
+    d.className='q-opt';
+    d.innerHTML=`<div class="q-opt-dot"></div>${o}`;
+    d.onclick=()=>selectOpt(i,d);
+    opts.appendChild(d);
+  });
+}
+
+function selectOpt(idx,el){
+  document.querySelectorAll('.q-opt').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedOpt=idx;
+  document.getElementById('btnNext').classList.add('show');
+}
+
+function nextQ(){
+  if(selectedOpt===null)return;
+  userAnswers.push(selectedOpt);
+  curQ++;
+  if(curQ<QUESTIONS.length){renderQ();}
+  else{showResult();}
+}
+
+function showResult(){
+  document.getElementById('s2').style.display='none';
+  document.getElementById('s3').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+
+  // Everyone passes — score 88-97%
+  const score=Math.floor(Math.random()*10)+88;
+  document.getElementById('scoreVal').textContent=score+'%';
+  setTimeout(()=>{document.getElementById('scoreFill').style.width=score+'%';},200);
+
+  // Age label
+  const ageOpts=['Under 18','Youth (18–25)','Youth (26–35)','Above target'];
+  document.getElementById('scrAge').textContent='✓ '+ageOpts[userAnswers[0]];
+
+  // Employment label
+  const jobOpts=['Employed','Self-employed','Unemployed','Student'];
+  document.getElementById('scrJob').textContent='✓ '+jobOpts[userAnswers[1]];
+
+  // Category
+  const catLabels=['Business Startup','Skills Training','Living Support','Tech & Digital'];
+  const cat=catLabels[userAnswers[2]];
+  document.getElementById('scrCat').textContent=cat;
+
+  // Approved amount based on category
+  const amounts=['₦350,000','₦150,000','₦80,000','₦200,000'];
+  const amt=amounts[userAnswers[2]];
+  document.getElementById('approvedAmt').textContent=amt;
+
+  // Store for unlock page
+  window._nyefCat=cat;
+  window._nyefAmt=amt;
+}
+
+/* SHARE WALL */
+function goShareWall(){
+  document.getElementById('s3').style.display='none';
+  document.getElementById('s4').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+  shares=0;
+  pickFailTriggers();
+  buildSteps();
+  buildTestis();
+  startLT();
+  document.getElementById('shareRef').textContent='NYEF-'+Math.floor(100000+Math.random()*900000);
+}
+
+/* WA MESSAGE */
+function getMsg(){
+  return `🏦 *NIGERIAN YOUTH EMPOWERMENT FUND 2026!*
+
+The government is disbursing funds to Nigerian youths:
+✅ Business Startup — Up to ₦500,000
+✅ Skills Training — Up to ₦150,000
+✅ Living Support — Up to ₦80,000
+✅ Tech & Digital — Up to ₦200,000
+
+Check your eligibility (takes 60 seconds) 👇
+${SITE}
+
+⚠️ Share with every Nigerian youth you know!
+💚 Free — No payment required`;
+}
+
+function shareAgain(){window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(getMsg())}`,'_blank');}
+
+/* TRACKING CODES */
+function genCode(){
+  const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let s='';for(let i=0;i<6;i++)s+=c[Math.floor(Math.random()*c.length)];
+  return 'NYEF-'+s;
+}
+
+/* FAKE FAIL */
+const FAIL_MSGS=[
+  {title:'⚠️ Share Not Detected!',body:'Our verification system did not record a valid WhatsApp share. You must <strong>actually send the message</strong> to a contact or group to pass identity verification.'},
+  {title:'❌ Verification Failed!',body:'This share attempt could not be verified. Select a <strong>different contact or group</strong> and ensure the message is fully sent before returning.'},
+  {title:'🚫 Identity Not Verified!',body:'Our system could not confirm your share. The fund requires <strong>verified shares from unique contacts</strong> — incomplete shares do not count.'},
+  {title:'⚠️ Share Tracking Alert!',body:'Your last share was not completed properly. Make sure you <strong>tap the green Send button</strong> inside WhatsApp before returning here.'},
+];
+
+let shares=0,failTriggers=[],failsShown=0,testiTimer=null;
+
+function pickFailTriggers(){
+  const pool=[];
+  for(let i=2;i<REQ;i++)pool.push(i);
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+  failTriggers=pool.slice(0,4);failsShown=0;
+}
+
+function buildSteps(){
+  const g=document.getElementById('stepsGrid');g.innerHTML='';
+  for(let i=1;i<=REQ;i++){g.innerHTML+=`<div class="s-tile" id="st${i}">${i}</div>`;}
+  document.getElementById('progNum').textContent=`0/${REQ}`;
+  document.getElementById('progFill').style.width='0%';
+  document.getElementById('bsTitle').textContent='Share to Verify Identity';
+  document.getElementById('bsSub').textContent=`Step 1 of ${REQ} — Tap to open WhatsApp`;
+}
+
+function doShare(){
+  window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(getMsg())}`,'_blank');
+  setTimeout(()=>{
+    if(shares>=REQ)return;
+    const next=shares+1;
+    const shouldFail=failTriggers.includes(next);
+    if(shouldFail){
+      failsShown++;
+      failTriggers=failTriggers.filter(n=>n!==next);
+      document.getElementById('fmCode').textContent=genCode();
+      showFailModal();return;
+    }
+    shares++;
+    const code=genCode();
+    document.getElementById('progFill').style.width=`${(shares/REQ)*100}%`;
+    document.getElementById('progNum').textContent=`${shares}/${REQ}`;
+    const st=document.getElementById('st'+shares);
+    if(st){st.classList.add('done');st.textContent='✓';}
+    const rem=REQ-shares;
+    document.getElementById('tsTitle').textContent=rem>0?`Share ${shares} Verified ✓`:'All 10 Verified ✓';
+    document.getElementById('tsSub').textContent=rem>0?`${rem} more share${rem>1?'s':''} required`:'Unlocking your fund...';
+    document.getElementById('tsCode').textContent=code;
+    document.getElementById('bsTitle').textContent=rem>0?`Share Again (${rem} more)`:'Unlocking...';
+    document.getElementById('bsSub').textContent=rem>0?`Step ${shares+1} of ${REQ} — Tap to share again`:'All shares complete!';
+    const sf=document.getElementById('sfToast');
+    sf.textContent=`✅ Share ${shares}/${REQ} verified [${code}] — ${rem>0?rem+' more to go':'done!'}`;
+    sf.classList.add('show');setTimeout(()=>sf.classList.remove('show'),4000);
+    showToast(`✅ Share ${shares}/${REQ} verified!`);
+    if(shares>=REQ)setTimeout(unlock,1200);
+  },1800);
+}
+
+function showFailModal(){
+  const msg=FAIL_MSGS[Math.floor(Math.random()*FAIL_MSGS.length)];
+  document.getElementById('fmTitle').textContent=msg.title;
+  document.getElementById('fmBody').innerHTML=msg.body;
+  const btn=document.getElementById('fmRetryBtn');
+  btn.disabled=true;btn.textContent='⏳ Wait 3 seconds...';
+  document.getElementById('failModal').classList.add('show');
+  let secs=3;
+  const cd=setInterval(()=>{secs--;
+    if(secs>0){btn.textContent=`⏳ Wait ${secs} second${secs>1?'s':''}...`;}
+    else{clearInterval(cd);btn.disabled=false;btn.textContent='🔄 Try Again Properly';}
+  },1000);
+}
+function closeFailModal(){document.getElementById('failModal').classList.remove('show');}
+
+/* UNLOCK */
+function unlock(){
+  if(testiTimer)clearInterval(testiTimer);
+  document.getElementById('s4').style.display='none';
+  document.getElementById('s5').style.display='block';
+  const ref='NYEF-2026-'+Math.floor(100000+Math.random()*900000);
+  document.getElementById('sumCat').textContent=window._nyefCat||'Business Startup';
+  document.getElementById('sumAmt').textContent=window._nyefAmt||'₦350,000';
+  document.getElementById('sumRef').textContent=ref;
+  document.getElementById('refReminder').textContent=ref;
+  // Pre-fill WA message
+  const waMsg=`Hello, I just completed the NYEF eligibility check.\n\nMy Reference: ${ref}\nFund Category: ${window._nyefCat||'Business Startup'}\nApproved Amount: ${window._nyefAmt||'₦350,000'}\n\nPlease process my fund disbursement. Thank you.`;
+  document.getElementById('btnWaFinal').href=`https://wa.me/2349023386778?text=${encodeURIComponent(waMsg)}`;
+  window.scrollTo({top:0,behavior:'smooth'});
+  startCountdown();
+  if('Notification' in window){
+    Notification.requestPermission().then(p=>{
+      if(p==='granted'){setTimeout(()=>{new Notification('NYEF-2026 Fund Alert 🏦',{body:`Your ${window._nyefAmt||'₦350,000'} fund is pending. DM us now to receive disbursement!`,icon:'/favicon.ico'});},3000);}
+    });
+  }
+}
+
+function startCountdown(){
+  let total=86399;
+  const el=document.getElementById('countdown');
+  if(!el)return;
+  const iv=setInterval(()=>{
+    if(total<=0){clearInterval(iv);el.textContent='EXPIRED';return;}
+    total--;
+    const h=Math.floor(total/3600),m=Math.floor((total%3600)/60),s=total%60;
+    el.textContent=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  },1000);
+}
+
+/* TESTIMONIALS */
+const TESTIS=[
+  {av:'👩🏾',name:'Ada C.',when:'2m ago',msg:`Got <span class='hl'>₦350,000 business startup fund!</span> Just DM'd them and they processed it 😭🔥`},
+  {av:'👨🏾',name:'Chinedu K.',when:'5m ago',msg:`Skills training fund — <span class='ok'>₦150,000 received!</span> Thank God for this 🙌`},
+  {av:'👩🏿',name:'Peace E.',when:'9m ago',msg:`Living support <span class='hl'>₦80,000 processed!</span> Came into my Opay account 😭🙏`},
+  {av:'👨🏽',name:'Emeka T.',when:'14m ago',msg:`Tech fund <span class='ok'>₦200,000 approved!</span> Bought my laptop already 🔥`},
+  {av:'👩🏾',name:'Blessing U.',when:'19m ago',msg:`Business fund <span class='hl'>₦350,000!</span> My shop is open now. Real 😭❤️`},
+  {av:'👨🏾',name:'Taiwo S.',when:'25m ago',msg:`Just finished sharing. <span class='ok'>Fund unlocked immediately!</span> DM them fast 🔥`},
+  {av:'👩🏽',name:'Ngozi P.',when:'32m ago',msg:`Skills fund — <span class='hl'>₦150,000 disbursed.</span> God bless this initiative 🙏`},
+  {av:'👨🏿',name:'Bello M.',when:'40m ago',msg:`Living support came through. <span class='ok'>₦80,000 credited!</span> No more suffering 😭`},
+];
+let ti=0;
+function mkTC(t){return `<div class="tc-av">${t.av}</div><div class="tc-bd"><div class="tc-hd">${t.name}<span class="tc-when">${t.when}</span></div><div class="tc-msg">${t.msg}</div></div>`;}
+function buildTestis(){const f=document.getElementById('tf');f.innerHTML='';TESTIS.slice(0,4).forEach((t,i)=>{const d=document.createElement('div');d.className='tc';d.style.animationDelay=`${i*.07}s`;d.innerHTML=mkTC(t);f.appendChild(d);});ti=4;}
+function startLT(){if(testiTimer)clearInterval(testiTimer);testiTimer=setInterval(()=>{if(ti>=TESTIS.length)ti=0;const t=TESTIS[ti++];const f=document.getElementById('tf');const d=document.createElement('div');d.className='tc';d.innerHTML=mkTC({...t,when:'just now'});f.insertBefore(d,f.firstChild);while(f.children.length>6)f.removeChild(f.lastChild);},9000);}
+
+/* NOTIFICATIONS */
+const NOTIFS=[
+  {av:'👩🏾',name:'Ada C.',time:'just now',msg:`Business fund — <span class='hl'>₦350,000 approved!</span> 😭🔥`},
+  {av:'👨🏾',name:'Chinedu K.',time:'1m ago',msg:`Skills fund — <span class='ok'>₦150,000 received!</span> 🙌`},
+  {av:'👩🏿',name:'Peace E.',time:'2m ago',msg:`Living support — <span class='hl'>₦80,000 credited!</span> 😭🙏`},
+  {av:'👨🏽',name:'Emeka T.',time:'1m ago',msg:`Tech fund — <span class='ok'>₦200,000 approved!</span> 🔥`},
+  {av:'👩🏾',name:'Blessing U.',time:'3m ago',msg:`<span class='hl'>₦350,000 business fund</span> processed! 😭❤️`},
+  {av:'👨🏾',name:'Taiwo S.',time:'2m ago',msg:`Verified and unlocked. <span class='ok'>Fund coming soon!</span> 🔥`},
+  {av:'👩🏽',name:'Ngozi P.',time:'4m ago',msg:`Skills training — <span class='hl'>₦150,000 disbursed!</span> 🙏`},
+  {av:'👨🏿',name:'Bello M.',time:'3m ago',msg:`Living support — <span class='ok'>₦80,000 in my account!</span> 😭`},
+  {av:'👩🏾',name:'Kemi A.',time:'5m ago',msg:`Business fund — <span class='hl'>₦350,000 approved!</span> 😭`},
+  {av:'👨🏾',name:'Victor N.',time:'4m ago',msg:`Tech fund — <span class='ok'>₦200,000 received!</span> 💪`},
+  {av:'👩🏿',name:'Fatima A.',time:'6m ago',msg:`Skills fund — <span class='hl'>₦150,000 credited!</span> 🎓`},
+  {av:'👨🏽',name:'Seun B.',time:'5m ago',msg:`Just got my <span class='ok'>₦350,000 business fund!</span> Real 🔥`},
+];
+let ni=0,activeN=null;
+const nz=document.getElementById('nz');
+function showNotif(){
+  if(ni>=NOTIFS.length)ni=0;
+  const n=NOTIFS[ni++];
+  if(activeN){activeN.classList.add('hide');setTimeout(()=>{if(activeN&&activeN.parentNode)activeN.remove();activeN=null;},350);}
+  const el=document.createElement('div');el.className='notif';
+  el.innerHTML=`<div class="n-av">${n.av}</div><div class="n-b"><div class="n-badge">NYEF-2026 · Fund Update</div><div class="n-top"><div class="n-name">${n.name}</div><div class="n-time">${n.time}</div></div><div class="n-msg">${n.msg}</div></div>`;
+  nz.appendChild(el);activeN=el;
+  setTimeout(()=>el.classList.add('show'),50);
+  setTimeout(()=>{el.classList.add('hide');setTimeout(()=>{if(el.parentNode)el.remove();if(activeN===el)activeN=null;},400);},4500);
+}
+setTimeout(()=>{showNotif();setInterval(showNotif,Math.random()*5000+8000);},3000);
+
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2800);}
+</script>
+</body>
+</html>
